@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="commons/layout">
+<head>
+    <title>layoutサンプル</title>
+    <meta name="description" content="固有のメタタグです">
+</head>
+
+<body>
+<div layout:decorator="layout">
+    <div layout:fragment="contents">
+        <p class="">コンテンツ部は固有のＨＴＭＬで置き換えます</p>
+    </div>
+</div>
+</body>
+</html>

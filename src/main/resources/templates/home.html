@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="commons/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>layoutサンプル</title>
+    <meta name="description" content="固有のメタタグです">
+</head>
+
+<body>
+<div layout:decorator="layout">
+    <div layout:fragment="contents">
+        <h1>Hello, This is Home page!</h1>
+        <a th:href="@{/user}">User Page</a>
+        <br />
+        <a th:href="@{/admin}">Admin Page</a>
+        <a href="#" class="btn btn-primary">test</a>
+    </div>
+</div>
+</body>
+</html>
