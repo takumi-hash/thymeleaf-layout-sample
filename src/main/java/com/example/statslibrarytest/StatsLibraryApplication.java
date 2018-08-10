@@ -1,12 +1,12 @@
-package com.example.samplelayout;
+package com.example.statslibrarytest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SamplelayoutApplication {
+public class StatsLibraryApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SamplelayoutApplication.class, args);
+        SpringApplication.run(StatsLibraryApplication.class, args);
     }
 }
