@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="commons/layout">
+<head>
+    <title>layoutサンプル</title>
+    <meta name="description" content="固有のメタタグです">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+</head>
+
+<body>
+<div layout:decorator="layout">
+    <div layout:fragment="contents" class="text-center">
+        <h1>Hello!</h1>
+        <p class="lead text-capitalize">Poisson distribution</p>
+        <p class="text-dark">
+            単位時間あたり平均<span th:text="${mean}">mean</span>回発生した事象が<br>
+            次の単位時間の間に<span th:text="${b}">b</span>回発生する確率は<br>
+            <span th:text="${result*100}">result</span>%です。
+        </p>
+        <div class="col-8 offset-2">
+            <canvas id="myChart"></canvas>
+        </div>
+    <script>
+        function getParam(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        var ctx = document.getElementById("myChart").getContext('2d');
+        const len = (getParam('mean')*2)+5;
+        const arr = new Array(len).fill(null).map((_, i) => i);
+        var dat = [];
+
+        const lambda = getParam('mean');
+        const exp = 2.718281828;
+        var numerator, denominator;
+        function fact(x) {
+            if(x==0) {
+                return 1;
+            }
+            return x * fact(x-1);
+        }
+        function poisson(k, lambda) {
+            exponentialPower = Math.pow(exp, -lambda); // negative power k
+            lambdaPowerK = Math.pow(lambda, k); // lambda elevated k
+            numerator = exponentialPower * lambdaPowerK;
+            denominator = fact(k); // factorial of k.
+            return (numerator / denominator);
+        }
+        for (var m in arr) {
+            ans = poisson(m, lambda);
+            dat.push(ans);
+        }
+
+        const lbls = new Array(len).fill(null).map((_, i) => i);
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: lbls,
+                datasets: [{
+                    label: '# of Votes',
+                    // data: [12, 19, 3, 5, 2, 3],
+                    data: dat,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1,
+                    cubicInterpolationMode: 'default'
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+    </div>
+</div>
+</body>
+</html>
